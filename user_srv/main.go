@@ -12,6 +12,7 @@ import (
 	"mxshop_srvs/user_srv/handler"
 	"mxshop_srvs/user_srv/initialize"
 	"mxshop_srvs/user_srv/proto"
+	"mxshop_srvs/user_srv/utils"
 	"net"
 )
 
@@ -21,10 +22,14 @@ func main() {
 	initialize.InitDB()
 
 	IP := flag.String("ip", "0.0.0.0", "ip  地址")
-	PORT := flag.Int("port", 50051, "端口号")
+	PORT := flag.Int("port", 0, "端口号")
 	flag.Parse()
 
 	zap.S().Info("ip", *IP, "port:", *PORT)
+
+	if *PORT == 0 {
+		*PORT, _ = utils.GetFreePort()
+	}
 
 	server := grpc.NewServer()
 	proto.RegisterUserServer(server, &handler.UserServer{})
@@ -49,7 +54,7 @@ func main() {
 	}
 
 	check := &api.AgentServiceCheck{
-		GRPC:                           fmt.Sprintf("%s:%d", "172.100.22.12", global.ServerConfig.Port),
+		GRPC:                           fmt.Sprintf("%s:%d", "172.100.22.12", *PORT),
 		Timeout:                        "5s",
 		Interval:                       "5s",
 		DeregisterCriticalServiceAfter: "15s",
@@ -58,7 +63,7 @@ func main() {
 	registration := new(api.AgentServiceRegistration)
 	registration.Name = global.ServerConfig.Name
 	registration.ID = global.ServerConfig.Name
-	registration.Port = global.ServerConfig.Port
+	registration.Port = *PORT
 	registration.Tags = []string{"zhoulei", "go"}
 	registration.Address = "172.100.22.12"
 	registration.Check = check
