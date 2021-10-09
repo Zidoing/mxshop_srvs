@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/hashicorp/consul/api"
+	"github.com/satori/go.uuid"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -25,11 +26,11 @@ func main() {
 	PORT := flag.Int("port", 0, "端口号")
 	flag.Parse()
 
-	zap.S().Info("ip", *IP, "port:", *PORT)
-
 	if *PORT == 0 {
 		*PORT, _ = utils.GetFreePort()
 	}
+
+	zap.S().Info("ip", *IP, " port:", *PORT)
 
 	server := grpc.NewServer()
 	proto.RegisterUserServer(server, &handler.UserServer{})
@@ -62,7 +63,8 @@ func main() {
 
 	registration := new(api.AgentServiceRegistration)
 	registration.Name = global.ServerConfig.Name
-	registration.ID = global.ServerConfig.Name
+	serviceID := fmt.Sprintf("%s", uuid.NewV4())
+	registration.ID = serviceID
 	registration.Port = *PORT
 	registration.Tags = []string{"zhoulei", "go"}
 	registration.Address = "172.100.22.12"
