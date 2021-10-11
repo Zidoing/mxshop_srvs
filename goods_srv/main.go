@@ -9,11 +9,11 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
-	"mxshop_srvs/user_srv/global"
-	"mxshop_srvs/user_srv/handler"
-	"mxshop_srvs/user_srv/initialize"
-	"mxshop_srvs/user_srv/proto"
-	"mxshop_srvs/user_srv/utils"
+	"mxshop_srvs/goods_srv/global"
+	"mxshop_srvs/goods_srv/handler"
+	"mxshop_srvs/goods_srv/initialize"
+	"mxshop_srvs/goods_srv/proto"
+	"mxshop_srvs/goods_srv/utils"
 	"net"
 )
 
