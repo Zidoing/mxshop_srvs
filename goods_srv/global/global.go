@@ -6,6 +6,7 @@ import (
 )
 
 var (
-	ServerConfig *config.ServerConfig = &config.ServerConfig{}
+	ServerConfig = &config.ServerConfig{}
+	NacosConfig  = &config.NacosConfig{}
 	DB           *gorm.DB
 )

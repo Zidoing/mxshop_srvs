@@ -55,7 +55,7 @@ func main() {
 	}
 
 	check := &api.AgentServiceCheck{
-		GRPC:                           fmt.Sprintf("%s:%d", "192.168.50.210", *PORT),
+		GRPC:                           fmt.Sprintf("%s:%d", "172.100.22.12", *PORT),
 		Timeout:                        "5s",
 		Interval:                       "5s",
 		DeregisterCriticalServiceAfter: "15s",
@@ -67,7 +67,7 @@ func main() {
 	registration.ID = serviceID
 	registration.Port = *PORT
 	registration.Tags = []string{"zhoulei", "go"}
-	registration.Address = "192.168.50.210"
+	registration.Address = "172.100.22.12"
 	registration.Check = check
 
 	err = client.Agent().ServiceRegister(registration)
