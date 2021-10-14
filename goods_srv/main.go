@@ -22,7 +22,6 @@ func main() {
 	initialize.InitLogger()
 	initialize.InitDB()
 
-	IP := flag.String("ip", "0.0.0.0", "ip  地址")
 	PORT := flag.Int("port", 0, "端口号")
 	flag.Parse()
 
@@ -30,12 +29,12 @@ func main() {
 		*PORT, _ = utils.GetFreePort()
 	}
 
-	zap.S().Info("ip", *IP, " port:", *PORT)
+	zap.S().Info("ip", global.ServerConfig.Host, " port:", *PORT)
 
 	server := grpc.NewServer()
 	proto.RegisterGoodsServer(server, &handler.GoodsServer{})
 
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", *IP, *PORT))
+	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", global.ServerConfig.Host, *PORT))
 
 	if err != nil {
 		panic("failed to listen" + err.Error())
@@ -55,7 +54,7 @@ func main() {
 	}
 
 	check := &api.AgentServiceCheck{
-		GRPC:                           fmt.Sprintf("%s:%d", "172.100.22.12", *PORT),
+		GRPC:                           fmt.Sprintf("%s:%d", global.ServerConfig.Host, *PORT),
 		Timeout:                        "5s",
 		Interval:                       "5s",
 		DeregisterCriticalServiceAfter: "15s",
@@ -66,7 +65,7 @@ func main() {
 	serviceID := fmt.Sprintf("%s", uuid.NewV4())
 	registration.ID = serviceID
 	registration.Port = *PORT
-	registration.Tags = []string{"zhoulei", "go"}
+	registration.Tags = global.ServerConfig.Tags
 	registration.Address = "172.100.22.12"
 	registration.Check = check
 
