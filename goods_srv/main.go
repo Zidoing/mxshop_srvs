@@ -22,7 +22,7 @@ func main() {
 	initialize.InitLogger()
 	initialize.InitDB()
 
-	PORT := flag.Int("port", 0, "端口号")
+	PORT := flag.Int("port", 50051, "端口号")
 	flag.Parse()
 
 	if *PORT == 0 {
