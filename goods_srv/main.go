@@ -66,7 +66,7 @@ func main() {
 	registration.ID = serviceID
 	registration.Port = *PORT
 	registration.Tags = global.ServerConfig.Tags
-	registration.Address = "172.100.22.12"
+	registration.Address = global.ServerConfig.Host
 	registration.Check = check
 
 	err = client.Agent().ServiceRegister(registration)

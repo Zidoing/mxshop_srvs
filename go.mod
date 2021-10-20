@@ -11,12 +11,13 @@ require (
 )
 
 require (
-	github.com/fsnotify/fsnotify v1.5.1
+	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/hashicorp/consul/api v1.10.1
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.0.9
+	github.com/olivere/elastic/v7 v7.0.29
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/viper v1.9.0
 	go.uber.org/zap v1.17.0
